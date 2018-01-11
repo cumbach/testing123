@@ -6,7 +6,7 @@
     'ContractCreator': 0,
     'Chris': 1000,
     'Jonny': 500,
-    'Mike': 10,
+    'Mike': 100,
   };
 
 // SMART CONTRACT PIECE
@@ -32,6 +32,13 @@
       Wallets[to] += amount;
     }
   };
+  StandardMethods.prototype.createColorsArray = function (color, size) {
+    var result = [];
+    for (var i = 0; i < size; i++) {
+      result.push(color);
+    }
+    return result;
+  };
 
 // SMART CONTRACT PIECE
   var Canvas = function Canvas() {
@@ -56,40 +63,34 @@
   };
 
   Canvas.prototype.ownerOnly = function (rentalFeesExist, rentalFees, buyingFees) {
-    this.rentalFeesExist = true;
+    // probably very difficult to include rental fees in MVP
+    this.rentalFeesExist = false;
     this.rentalFees = 0.001;
-    this.buyingFees = 0.01;
+
+    // ContractOwner receives 4% of every buy transaction
+    this.buyingFees = 0.04;
   };
 
   // just for testing different methods
   Canvas.prototype.runTestCode = function () {
-    var newMeta = {
-      colors: [
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-        "red",
-      ],
+    var newMeta1 = {
+      colors: this.standardMethods.createColorsArray("red", 10),
       link: "www.a.com",
       comment: "AAA"
     }
-    this.buyPixels("Jonny", this.pixels.slice(30,40), newMeta)
-    // this.rentPixels("Jonny", this.pixels.slice(30,40), newMeta);
+    this.buyPixels("Chris", this.pixels.slice(0,10), newMeta1);
+    this.rentPixels("Chris", this.pixels.slice(355,365), newMeta1);
+
+    var newMeta2 = {
+      colors: this.standardMethods.createColorsArray("orange", 10),
+      link: "www.a.com",
+      comment: "AAA"
+    }
+    this.buyPixels("Jonny", this.pixels.slice(0,10), newMeta2)
+
     this.refreshCanvas();
     console.log(Wallets);
   };
-
-  // Not part of Smart Contract, reading is front end
-  // Takes array of pixels and displays information
-  Canvas.prototype.displayBulkPurchase = function(pixels) {
-    console.log(pixels);
-  }
 
 // SMART CONTRACT PIECE
   Canvas.prototype.buyPixels = function (buyer, pixels, newMeta) {
@@ -113,7 +114,7 @@
         var owner = pixels[i].owner;
 
         this.standardMethods.sendEther(buyer, owner, pixels[i].price);
-        this.standardMethods.sendEther(buyer, 'ContractCreator', this.buyingFees);
+        this.standardMethods.sendEther(buyer, 'ContractCreator', pixels[i].price * this.buyingFees);
       }
       this.transferOwnership(buyer, pixels, newMeta);
     } else {
@@ -160,34 +161,22 @@
     }
   };
 
-  // Just used to simulate initializing the board
+  // Just used to simulate initializing the canvas
   Canvas.prototype.createPixels = function () {
     for (var i = 0; i < this.pixelsPerSide; i++) {
       for (var j = 0; j < this.pixelsPerSide; j++) {
-        var meta = {color:"blue", link:"www.x.com", comment:"X.com"};
+        var meta = {color:"blue", link:"www.cryptocanvas.com", comment:"cryptocanvas"};
         var owner = "ContractCreator";
         var location = [i, j];
         var price = 1;
         this.pixels.push(new Pixel(meta, owner, location, price));
       }
     }
-    this.addSquaresToWindow();
+    $('.pixel-count').html('Pixel count:' + this.pixels.length);
+    this.refreshCanvas();
   };
 
-  // Just used to simulate initializing the board
-  Canvas.prototype.addSquaresToWindow = function () {
-    var totalSquares = this.pixels.length;
-    $('.pixel-count').html('Pixel count:' + totalSquares);
-    for (var i = 0; i < totalSquares; i++) {
-      $('#canvas').append('<div class="pixel" style="background:' + this.pixels[i].meta.color + '"></div>');
-    }
-    $('.pixel').css('height', this.pixelSize);
-    $('.pixel').css('width', this.pixelSize);
-    $('#canvas').css('height', this.sideLength);
-    $('#canvas').css('width', this.sideLength);
-  };
-
-  // Just used to simulate initializing the board
+  // Just used to simulate refreshing the canvas
   Canvas.prototype.refreshCanvas = function () {
     $('.pixel').remove();
     var totalSquares = this.pixels.length;
@@ -196,5 +185,7 @@
     }
     $('.pixel').css('height', this.pixelSize);
     $('.pixel').css('width', this.pixelSize);
+    $('#canvas').css('height', this.sideLength);
+    $('#canvas').css('width', this.sideLength);
   };
 })();
