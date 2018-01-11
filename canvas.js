@@ -21,17 +21,24 @@
     // Price = 0.001 (in Ether)
     this.price = price;
     // cooldownTime = initializes at time pixel was created
-    this.cooldownTime = new Date();
+    // represents a date in time
+    this.cooldownTime = 0;
   };
 
 // SMART CONTRACT PIECE
   var StandardMethods = function StandardMethods() {}
-  StandardMethods.prototype.sendEther = function (from, to, amount) {
-    if (Wallets[from] > amount) {
-      Wallets[from] -= amount;
-      Wallets[to] += amount;
+
+  StandardMethods.prototype.sendEther = function (from, transactions) {
+    for (var sendTo in transactions) {
+      var amount = transactions[sendTo];
+      if (Wallets[from] > amount) {
+        Wallets[from] -= amount;
+        Wallets[sendTo] += amount;
+      }
+      console.log(from + " paid " + sendTo + " " + amount + " Ether");
     }
   };
+
   StandardMethods.prototype.createColorsArray = function (color, size) {
     var result = [];
     for (var i = 0; i < size; i++) {
@@ -55,6 +62,7 @@
 
 // SMART CONTRACT PIECE
   Canvas.prototype.init = function(opts) {
+    this.currentDay = 1;
     this.ownerOnly();
 
     // Draw initial board
@@ -71,54 +79,120 @@
     this.buyingFees = 0.04;
   };
 
+
+
   // just for testing different methods
   Canvas.prototype.runTestCode = function () {
+    // WALLETS
+    console.log("day " + this.currentDay);
+    console.log(Wallets);
+    console.log("\n");
+
+    // BUY
     var newMeta1 = {
       colors: this.standardMethods.createColorsArray("red", 10),
       link: "www.a.com",
-      comment: "AAA"
+      comment: "AAA",
+      price: 2
     }
     this.buyPixels("Chris", this.pixels.slice(0,10), newMeta1);
-    this.rentPixels("Chris", this.pixels.slice(355,365), newMeta1);
+    console.log("\n");
 
+    // WALLETS
+    console.log(Wallets);
+    console.log("\n");
+
+    // RENT
+    this.rentPixels("Chris", this.pixels.slice(355,365), newMeta1);
+    console.log("\n");
+
+    // WALLETS
+    console.log(Wallets);
+    console.log("\n");
+
+    // Advance Calendar
+    this.currentDay += 10;
+    console.log("day " + this.currentDay);
+    console.log("\n");
+
+    // BUY
     var newMeta2 = {
       colors: this.standardMethods.createColorsArray("orange", 10),
       link: "www.a.com",
-      comment: "AAA"
+      comment: "AAA",
+      price: 3
     }
     this.buyPixels("Jonny", this.pixels.slice(0,10), newMeta2)
+    console.log("\n");
+
+    // WALLETS
+    console.log(Wallets);
+    console.log("\n");
+
+    // Advance Calendar
+    this.currentDay += 10;
+    console.log("day " + this.currentDay);
+    console.log("\n");
+
+    // BUY
+    var newMeta3 = {
+      colors: this.standardMethods.createColorsArray("green", 10),
+      link: "www.b.com",
+      comment: "BBB",
+      price: 4
+    }
+    this.buyPixels("Mike", this.pixels.slice(5,15), newMeta3)
+    console.log("\n");
+
+    // WALLETS
+    console.log(Wallets);
+    console.log("\n");
 
     this.refreshCanvas();
-    console.log(Wallets);
   };
+
+
 
 // SMART CONTRACT PIECE
   Canvas.prototype.buyPixels = function (buyer, pixels, newMeta) {
     // buyer is msg.sender in Solidity, not actually required in argument
     // newMeta: { colors: [], link, comments}
     var totalCost = 0;
+    var allPixelsAvailable = true;
     for (var i = 0; i < pixels.length; i++) {
+      // If any of the pixels are not "stale", break early and cancel buy
+      if (pixels[i].cooldownTime > this.currentDay) {
+        allPixelsAvailable = false;
+        break;
+      }
+
       totalCost += pixels[i].price;
-
-
-      // console.log(pixels[i].cooldownTime)// + "/" + pixels[i].cooldownTime.getDay() + "/" + pixels[i].cooldownTime.getYear())
-
-
       totalCost += this.buyingFees;
     }
 
     // send costs + transaction fees
-    if (Wallets[buyer] > totalCost) {
+    if (Wallets[buyer] > totalCost && allPixelsAvailable) {
       // this needs to be refactored to be efficient
+
+      var transactions = {};
       for (var i = 0; i < pixels.length; i++) {
         var owner = pixels[i].owner;
-
-        this.standardMethods.sendEther(buyer, owner, pixels[i].price);
-        this.standardMethods.sendEther(buyer, 'ContractCreator', pixels[i].price * this.buyingFees);
+        if (typeof transactions[owner] == "undefined") {
+          transactions[owner] = pixels[i].price;
+        } else {
+          transactions[owner] += pixels[i].price;
+        }
       }
+      this.standardMethods.sendEther(buyer, transactions);
+      this.standardMethods.sendEther(buyer, { 'ContractCreator': totalCost * this.buyingFees});
+
       this.transferOwnership(buyer, pixels, newMeta);
     } else {
-      console.log('not enough in account');
+      if (allPixelsAvailable) {
+        console.log("Buy cancelled: not enough in account");
+      } else {
+        console.log('Buy cancelled: pixels unavailable');
+      }
     }
   };
 
@@ -126,35 +200,38 @@
     Canvas.prototype.rentPixels = function (renter, pixels, newMeta) {
       // renter is msg.sender in Solidity, not actually required in argument
       // newMeta: { colors: [], link, comments}
-      var totalCost = 0;
+      // Not including code for rental fees as part of MVP
+      var allPixelsAvailable = true;
       for (var i = 0; i < pixels.length; i++) {
-        totalCost += pixels[i].price;
-        totalCost += this.buyingFees;
+        // If any of the pixels are not "stale", break early and cancel rent
+        if (pixels[i].cooldownTime > this.currentDay) {
+          allPixelsAvailable = false;
+          break;
+        }
       }
 
       // send costs + transaction fees
-      if (Wallets[renter] > totalCost) {
-        // this needs to be refactored to be efficient
-        for (var i = 0; i < pixels.length; i++) {
-          var owner = pixels[i].owner;
-
-          if (this.rentalFeesExist) {
-            // Pixel owner gets rental fees
-            this.standardMethods.sendEther(renter, owner, this.rentalFees);
-            // Contract creator takes 10%
-            this.standardMethods.sendEther(renter, 'ContractCreator', this.rentalFees * 0.1);
-          }
-        }
-        this.transferOwnership(renter, pixels, newMeta);
-      } else {
-        console.log('not enough in account');
+      if (allPixelsAvailable) {
+        this.changeMeta(pixels, newMeta);
+        console.log(renter + " rented " + pixels.length + " pixels on day " + this.currentDay);
       }
+
     };
 
 // SMART CONTRACT PIECE
   Canvas.prototype.transferOwnership = function (buyer, pixels, newMeta) {
     for (var i = 0; i < pixels.length; i++) {
-      pixels[i].owner = Wallets[buyer];
+      pixels[i].owner = buyer;
+      this.changeMeta(pixels, newMeta)
+      pixels[i].price = newMeta.price;
+      pixels[i].cooldownTime = this.currentDay + 7;
+    }
+    console.log(buyer + " bought " + pixels.length + " pixels on day " + this.currentDay);
+  };
+
+// SMART CONTRACT PIECE
+  Canvas.prototype.changeMeta = function (pixels, newMeta) {
+    for (var i = 0; i < pixels.length; i++) {
       pixels[i].meta.color = newMeta.colors[i];
       pixels[i].meta.link = newMeta.link;
       pixels[i].meta.comment = newMeta.comment;
