@@ -1,22 +1,6 @@
 (function(){
   'use strict';
 
-  // Wallets
-  StandardMethods (Contract)
-  Canvas (Contract)
-  Pixel (Struct)
-  init
-  buyPixels
-  rentPixels
-  transferOwnership
-  -transferForRent
-  ownerOnly
-  // displayBulkPurchase
-  // createPixels
-  // addSquaresToWindow
-  // refreshCanvas
-  // runTestCode
-
   var Wallets = {
     // Here wallets are names, but will actually be eth wallets
     'ContractCreator': 0,
