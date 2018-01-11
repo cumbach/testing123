@@ -15,10 +15,30 @@ For examples of what a contract
 
 See this for a better idea of what a SmartContract looks like. We will reference this code a lot: https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game-on-ethereum-7c8ac86a4eb3
 
+## Early wireframes
+![wireframe]
+
+- See "Design" in the writeup.
+- Landing page shows Canvas (center) and hidden panel on the right
+- Click to expand the panel, Canvas slides left, color selector bar appears at bottom, all pixels go white
+- Panel has "Buy" and "Rent" tabs
+- Buy/Rent both display a list of all transactions, "link" and "comment" input fields, duration slider, and costs
+- Buy tab additionally allows users to filter pixels by price via slider
+- Rent tab allows users to filter pixels by current availability
+
+## Example user flow:
+- User1 goes to the app and wants to purchase a 64x64 plot for an advertisement. They open the panel and select the "Buy" tab. They can use the slider to find a plot that they like and can afford. They "draw" using the color selector bar at the bottom. As they draw, a growing list of transactions appears in the panel. When the drawing is complete, they can set a link that the app would go to and a comment it would display on hover. User1 wants the ad to display for at least 3 months, so they add 11 weeks to the duration (increasing costs). Clicking complete would open Metamask with the grand total (cost of running the code and the transaction cost), and allow them to execute the bulk purchase.
+
+- After 3 months, User2 sees that the plot of pixels has gone stale. User2 is able to "rent" the space and create a doodle (for "free").
+
+- User1 sees that their ad has been defaced. They then have to go back and redo their work (they can pay to add time to the duration but instead decide to stick to the default free "week").
+
+- User1 is able to come back at any point within the free week and "refresh" their work (for "free") to keep it from going stale. Every time they refresh their art, the cooldownTime starts over at a week.
+
 ## What does the code here do?
-- Open index.html and see!
-- ![wireframe]
-- Not all of the functions here matter, I've listed the ones that are important:
+- Use your console to run "open index.html" and see!
+- We see that a canvas is initialized and displayed on the web page. This canvas has many different functions that it can execute which mimic the functionality of the smart contract. In order to test out how the functions work, check out "runTestCode", which mimics the actions the user will be able to take in the browser.
+- Not all of the functions here matter (some of there are just there to simulate the EVM or the user actions), I've listed the functions that are important for our Smart Contract:
 
 ## Canvas (Contract)
 The overall contract that contains all the functionality.
