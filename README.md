@@ -13,6 +13,8 @@ See general write-up of the idea here: https://docs.google.com/document/d/1skDeY
 We already have general wireframes drawn up.
 At the Hackathon we will primarily focus on creating a MVP Smart Contract that we can display in a web browser.
 We will need to discuss the design more when we have a better idea of MVP.
+We will only need to be running a local node an hooking it up to a local server for display:
+![flow]
 
 ## MVP
 In this repo, I'm simulating (work in progress) a basic contract that I think has our Minimum Viable Product.
@@ -81,3 +83,4 @@ We will need a way to control various aspects of the contract, although not too 
 
 
 [wireframe]: ./wireframe.jpg
+[flow]: ./flow.png
