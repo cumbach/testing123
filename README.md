@@ -17,7 +17,7 @@ See this for a better idea of what a SmartContract looks like. We will reference
 
 ## What does the code here do?
 - Open index.html and see!
-- [wireframe]: ./wireframe.jpg
+- ![wireframe]
 - Not all of the functions here matter, I've listed the ones that are important:
 
 ## Canvas (Contract)
@@ -53,3 +53,6 @@ Pixels will each have their own price (set by the purchaser during a buy action)
 
 ### ownerOnly
 We will need a way to control various aspects of the contract, although not too much. Ethereum has a handy way of allowing the ContractOwner to execute private functions. This function will allow the company to reset things like the default (free) cooldownTime, rentalFees and buyingFees.
+
+
+[wireframe]: ./wireframe.jpg
