@@ -3,6 +3,12 @@
 ## Idea
 See general write-up of the idea here: https://docs.google.com/document/d/1skDeYsgNJ-PnR4nK_N8SF5BPQ6K0NdqvOgpKbcuLb28/edit?usp=docs_home&ths=true
 
+### I want to reiterate an analogy that I like to make:
+- This idea is analogous to the real life equivalent of a billboard, except that the billboard is accessible all around the world, can never be taken down, and doesn’t have any one “true” owner.
+- People can pay to own parts of the billboard, which they are free to do with as they please. They can advertise, draw, and promote. They can do nothing. They can sit on it and speculate. They can sell it for whatever price they want.
+- However, as with a real billboard, if you just leave it up by the side of the road and don't maintain it, eventually people will deface it with their own "art", the elements will wear it down, or it will get covered in bird poop.
+- As with a real billboard, when you purchase the space, you can pay an upfront fee for it to be maintained for a specified amount of time, but you will still need to occasionally renew your contract to keep it maintained.
+
 ## Strategy
 We already have general wireframes drawn up.
 At the Hackathon we will primarily focus on creating a MVP Smart Contract that we can display in a web browser.
@@ -11,7 +17,6 @@ We will need to discuss the design more when we have a better idea of MVP.
 ## MVP
 In this repo, I'm simulating (work in progress) a basic contract that I think has our Minimum Viable Product.
 We will need to essentially translate this to Solidity and get it running on a local instance of the EVM.
-For examples of what a contract
 
 See this for a better idea of what a SmartContract looks like. We will reference this code a lot: https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game-on-ethereum-7c8ac86a4eb3
 
