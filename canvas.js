@@ -9,6 +9,9 @@
     'Mike': 100,
   };
 
+
+
+
 // SMART CONTRACT PIECE
   var Pixel = function Pixel(meta, owner, location, price) {
     //Examples in Comments
@@ -24,6 +27,11 @@
     // represents a date in time
     this.cooldownTime = 0;
   };
+
+
+
+
+
 
 // SMART CONTRACT PIECE
   var StandardMethods = function StandardMethods() {}
@@ -47,9 +55,13 @@
     return result;
   };
 
+
+
+
+
 // SMART CONTRACT PIECE
   var Canvas = function Canvas() {
-    // Store pixels in an array
+    // Store pixels in an array (Smart contract may be different structure)
     this.pixels = [];
     this.standardMethods = new StandardMethods();
 
@@ -60,98 +72,24 @@
   };
   window['Canvas'] = Canvas;
 
-// SMART CONTRACT PIECE
+// SMART CONTRACT PIECE (Contract automatically runs init once when created)
   Canvas.prototype.init = function(opts) {
     this.currentDay = 1;
-    this.ownerOnly();
+    this.ownerOnly(false, 0, 0.04);
 
-    // Draw initial board
+    // Draw initial board (Not part of Contract, just for testing here)
     this.createPixels();
     this.runTestCode();
   };
 
   Canvas.prototype.ownerOnly = function (rentalFeesExist, rentalFees, buyingFees) {
     // probably very difficult to include rental fees in MVP
-    this.rentalFeesExist = false;
-    this.rentalFees = 0.001;
+    this.rentalFeesExist = rentalFeesExist;
+    this.rentalFees = rentalFees;
 
     // ContractOwner receives 4% of every buy transaction
-    this.buyingFees = 0.04;
+    this.buyingFees = buyingFees;
   };
-
-
-
-  // just for testing different methods
-  Canvas.prototype.runTestCode = function () {
-    // WALLETS
-    console.log("day " + this.currentDay);
-    console.log(Wallets);
-    console.log("\n");
-
-    // BUY
-    var newMeta1 = {
-      colors: this.standardMethods.createColorsArray("red", 10),
-      link: "www.a.com",
-      comment: "AAA",
-      price: 2
-    }
-    this.buyPixels("Chris", this.pixels.slice(0,10), newMeta1);
-    console.log("\n");
-
-    // WALLETS
-    console.log(Wallets);
-    console.log("\n");
-
-    // RENT
-    this.rentPixels("Chris", this.pixels.slice(355,365), newMeta1);
-    console.log("\n");
-
-    // WALLETS
-    console.log(Wallets);
-    console.log("\n");
-
-    // Advance Calendar
-    this.currentDay += 10;
-    console.log("day " + this.currentDay);
-    console.log("\n");
-
-    // BUY
-    var newMeta2 = {
-      colors: this.standardMethods.createColorsArray("orange", 10),
-      link: "www.a.com",
-      comment: "AAA",
-      price: 3
-    }
-    this.buyPixels("Jonny", this.pixels.slice(0,10), newMeta2)
-    console.log("\n");
-
-    // WALLETS
-    console.log(Wallets);
-    console.log("\n");
-
-    // Advance Calendar
-    this.currentDay += 10;
-    console.log("day " + this.currentDay);
-    console.log("\n");
-
-    // BUY
-    var newMeta3 = {
-      colors: this.standardMethods.createColorsArray("green", 10),
-      link: "www.b.com",
-      comment: "BBB",
-      price: 4
-    }
-    this.buyPixels("Mike", this.pixels.slice(5,15), newMeta3)
-    console.log("\n");
-
-    // WALLETS
-    console.log(Wallets);
-    console.log("\n");
-
-    this.refreshCanvas();
-  };
-
-
 
 // SMART CONTRACT PIECE
   Canvas.prototype.buyPixels = function (buyer, pixels, newMeta) {
@@ -186,7 +124,7 @@
       this.standardMethods.sendEther(buyer, transactions);
       this.standardMethods.sendEther(buyer, { 'ContractCreator': totalCost * this.buyingFees});
 
-      this.transferOwnership(buyer, pixels, newMeta);
+      this.transferOwnership(buyer, pixels, newMeta); // also calls changeMeta
     } else {
       if (allPixelsAvailable) {
         console.log("Buy cancelled: not enough in account");
@@ -265,4 +203,76 @@
     $('#canvas').css('height', this.sideLength);
     $('#canvas').css('width', this.sideLength);
   };
+
+
+
+    // just for testing different methods
+    Canvas.prototype.runTestCode = function () {
+      // WALLETS
+      console.log("day " + this.currentDay);
+      console.log(Wallets);
+      console.log("\n");
+
+      // BUY
+      var newMeta1 = {
+        colors: this.standardMethods.createColorsArray("red", 10),
+        link: "www.a.com",
+        comment: "AAA",
+        price: 2
+      }
+      this.buyPixels("Chris", this.pixels.slice(0,10), newMeta1);
+      console.log("\n");
+
+      // WALLETS
+      console.log(Wallets);
+      console.log("\n");
+
+      // RENT
+      this.rentPixels("Chris", this.pixels.slice(355,365), newMeta1);
+      console.log("\n");
+
+      // WALLETS
+      console.log(Wallets);
+      console.log("\n");
+
+      // Advance Calendar
+      this.currentDay += 10;
+      console.log("day " + this.currentDay);
+      console.log("\n");
+
+      // BUY
+      var newMeta2 = {
+        colors: this.standardMethods.createColorsArray("orange", 10),
+        link: "www.a.com",
+        comment: "AAA",
+        price: 3
+      }
+      this.buyPixels("Jonny", this.pixels.slice(0,10), newMeta2)
+      console.log("\n");
+
+      // WALLETS
+      console.log(Wallets);
+      console.log("\n");
+
+      // Advance Calendar
+      this.currentDay += 10;
+      console.log("day " + this.currentDay);
+      console.log("\n");
+
+      // BUY
+      var newMeta3 = {
+        colors: this.standardMethods.createColorsArray("green", 10),
+        link: "www.b.com",
+        comment: "BBB",
+        price: 4
+      }
+      this.buyPixels("Mike", this.pixels.slice(5,15), newMeta3)
+      console.log("\n");
+
+      // WALLETS
+      console.log(Wallets);
+      console.log("\n");
+
+      this.refreshCanvas();
+    };
 })();

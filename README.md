@@ -73,13 +73,16 @@ For MVP:
 - At any time, the owner of that pixel can re-seize control of the pixel (revert the properties), but this won't take effect until the new cooldownTime has been reached
 
 For Final Product:
-- We may want to consider allowing users to "bid" on pixels before they become stale. This will allow us to introduce the idea of paying the pixel owners when lots of people want to rent their property.
+- We may want to consider allowing users to "bid" on pixels before they become stale. We may also want to consider allowing users to pay extra to rent pixels for longer than the default time. This will allow us to introduce the idea of paying the pixel owners when lots of people want to rent their property.
+
+### changeMeta
+Set off during a buy or rent action. Changes the properties such as color, link, comment.
 
 ### transferOwnership
-Pixels will each have their own price (set by the purchaser during a buy action). If the price is set to null, the pixel is not for sale. Users can buy pixels (setting off transferOwnership) at any point. Owners can change the prices of their pixels at any point.
+Pixels will each have their own price (set by the purchaser during a buy action). If the price is set to null, the pixel is not for sale. Users can buy pixels (setting off transferOwnership) at any point.
 
 ### ownerOnly
-We will need a way to control various aspects of the contract, although not too much. Ethereum has a handy way of allowing the ContractOwner to execute private functions. This function will allow the company to reset things like the default (free) cooldownTime, rentalFees and buyingFees.
+We will need a way to control various aspects of the contract, although not too much. Ethereum has a handy way of allowing the ContractOwner to execute private functions. This function will allow the company to reset things like the default (free) cooldownTime, rentalFees (not in MVP) and buyingFees.
 
 
 [wireframe]: ./wireframe.jpg
