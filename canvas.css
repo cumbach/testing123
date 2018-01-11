@@ -1,0 +1,12 @@
+#canvas {
+}
+
+.pixel {
+  float: left;
+  /* border: 1px solid black; */
+}
+
+.pixel-count {
+  top: 20px;
+  font-size: 30px;
+}
