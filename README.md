@@ -40,10 +40,10 @@ See this for a better idea of what a SmartContract looks like. We will reference
 
 - User1 sees that their ad has been defaced. They then have to go back and redo their work (they can pay to add time to the duration but instead decide to stick to the default free "week").
 
-- User1 is able to come back at any point within the free week and "refresh" their work (for "free") to keep it from going stale. Every time they refresh their art, the cooldownTime starts over at a week.
+- User1 is able to come back at any point within the free week and "refresh" their work (for "free") to keep it from going stale. They come back on a weekly basis to refresh. Every time they refresh their art, the cooldownTime starts over at a week.
 
 ## What does the code here do?
-- Use your console to run "open index.html" and see!
+- Use your console to run "open index.html" and see! (Open developer tools to see the simulated transactions)
 - We see that a canvas is initialized and displayed on the web page. This canvas has many different functions that it can execute which mimic the functionality of the smart contract. In order to test out how the functions work, check out "runTestCode", which mimics the actions the user will be able to take in the browser.
 - Not all of the functions here matter (some of there are just there to simulate the EVM or the user actions), I've listed the functions that are important for our Smart Contract:
 
