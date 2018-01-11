@@ -160,11 +160,12 @@
     }
   };
 
+  // Just used to simulate initializing the board
   Canvas.prototype.createPixels = function () {
     for (var i = 0; i < this.pixelsPerSide; i++) {
       for (var j = 0; j < this.pixelsPerSide; j++) {
         var meta = {color:"blue", link:"www.x.com", comment:"X.com"};
-        var owner = "Chris";
+        var owner = "ContractCreator";
         var location = [i, j];
         var price = 1;
         this.pixels.push(new Pixel(meta, owner, location, price));
@@ -173,6 +174,7 @@
     this.addSquaresToWindow();
   };
 
+  // Just used to simulate initializing the board
   Canvas.prototype.addSquaresToWindow = function () {
     var totalSquares = this.pixels.length;
     $('.pixel-count').html('Pixel count:' + totalSquares);
@@ -185,6 +187,7 @@
     $('#canvas').css('width', this.sideLength);
   };
 
+  // Just used to simulate initializing the board
   Canvas.prototype.refreshCanvas = function () {
     $('.pixel').remove();
     var totalSquares = this.pixels.length;
