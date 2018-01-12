@@ -19,7 +19,7 @@ See general write-up of the idea here: https://docs.google.com/document/d/1skDeY
 2. https://medium.com/@mvmurthy/full-stack-hello-world-voting-ethereum-dapp-tutorial-part-1-40d2d0d807c2
 3. https://github.com/llSourcell/Your_First_Decentralized_Application
 
-- Also check out Jonathan's project: https://github.com/flexorg/FundEth (will probably use the same dev flow). To run his project:
+- Also check out Jonathan's project: https://github.com/flexorg/FundEth (will probably use the same dev flow). To run his project (see https://github.com/trufflesuite/ganache-cli):
 1. Npm install
 2. Npm install -g ganache-cli
 3. Npm run start
