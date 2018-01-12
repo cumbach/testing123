@@ -67,7 +67,7 @@
 
     // Play with the display of the Canvas here:
     this.sideLength = 500;
-    this.pixelSize = 10;
+    this.pixelSize = 5;
     this.pixelsPerSide = this.sideLength / this.pixelSize;
   };
   window['Canvas'] = Canvas;

@@ -85,5 +85,5 @@ Pixels will each have their own price (set by the purchaser during a buy action)
 We will need a way to control various aspects of the contract, although not too much. Ethereum has a handy way of allowing the ContractOwner to execute private functions. This function will allow the company to reset things like the default (free) cooldownTime, rentalFees (not in MVP) and buyingFees.
 
 
-[wireframe]: ./wireframe.jpg
+[wireframe]: ./wireframe2.jpg
 [flow]: ./flow.png
