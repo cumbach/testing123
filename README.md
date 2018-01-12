@@ -30,7 +30,7 @@ We will need to essentially translate this to Solidity and get it running on a l
 See this for a better idea of what a SmartContract looks like. We will reference this code a lot: https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game-on-ethereum-7c8ac86a4eb3
 
 ## Early wireframes
-![wireframe
+![wireframe]
 ![wireframe2]
 
 - See "Design" in the writeup.
