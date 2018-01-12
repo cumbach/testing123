@@ -30,7 +30,8 @@ We will need to essentially translate this to Solidity and get it running on a l
 See this for a better idea of what a SmartContract looks like. We will reference this code a lot: https://medium.com/loom-network/how-to-code-your-own-cryptokitties-style-game-on-ethereum-7c8ac86a4eb3
 
 ## Early wireframes
-![wireframe]
+![wireframe
+![wireframe2]
 
 - See "Design" in the writeup.
 - Landing page shows Canvas (center) and hidden panel on the right
@@ -91,6 +92,6 @@ Pixels will each have their own price (set by the purchaser during a buy action)
 ### ownerOnly
 We will need a way to control various aspects of the contract, although not too much. Ethereum has a handy way of allowing the ContractOwner to execute private functions. This function will allow the company to reset things like the default (free) cooldownTime, rentalFees (not in MVP) and buyingFees.
 
-
-[wireframe]: ./wireframe2.jpg
+[wireframe]: ./wireframe.jpg
+[wireframe2]: ./wireframe2.jpg
 [flow]: ./flow.png
