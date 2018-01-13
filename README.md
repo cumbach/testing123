@@ -39,7 +39,7 @@ See this for a better idea of what a SmartContract looks like. We will reference
 ![wireframe]
 ![wireframe2]
 
-- See "Design" in the writeup.
+- See "Design" writeup (gdocs) and mockups.pdf (in this repo).
 - Landing page shows Canvas (center) and hidden panel on the right
 - Click to expand the panel, Canvas slides left, color selector bar appears at bottom, all pixels go white
 - Panel has "Buy" and "Rent" tabs
